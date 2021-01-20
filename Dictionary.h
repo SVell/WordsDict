@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 
+// Boolean search Enum
 enum request
 {
 	NOT,
@@ -11,6 +12,7 @@ enum request
 	OR
 };
 
+// Main struct
 struct word {
 	std::string line;
 	int number;
@@ -21,23 +23,28 @@ class Dictionary
 {
 	
 public:
+	// All words and books from files
 	std::vector<word> words;
 	std::vector<std::string> books;
 
-	void createDict(const std::string& path);
-	void handleRequest(const request req, std::vector<std::string>& line);
+	// Main public methods
+	void create_dict(const std::string& path);
+	void handle_request(const request req, std::vector<std::string>& line);
 private:
-	void handleFile(const std::string& path, std::string book);
-	void binarySearch(const word& word, const int l, const int r);
-	void insertWord(const word& word);
-	void cleanString(std::string& word);
-	void createOutputFile();
+	void handle_file(const std::string& path, std::string &book);
+	// Insertion binary search
+	void binary_search(const word& word, const int l, const int r);
+	void insert_word(const word& word);
+	void clean_string(std::string& word);
+	void create_output_file();
 
-	int binarySearchWord(const std::string& word, const int l, const int r);
-	
-	void handleNot(std::vector<std::string>& line);
-	void handleAnd(std::vector<std::string>& line);
-	void handleOr(std::vector<std::string>& line);
+	// Binary search by word
+	int binary_search_word(const std::string& word, const int l, const int r);
+
+	// Handling boolean search
+	void handle_not(std::vector<std::string>& line);
+	void handle_and(std::vector<std::string>& line);
+	void handle_or(std::vector<std::string>& line);
 	
 };
 

@@ -2,8 +2,9 @@
 #include <iostream>
 #include <iterator>
 #include <sstream>
+#include <windows.h>
 
-#include "CreateDictionary.h"
+#include "Dictionary.h"
 
 using namespace std;
 
@@ -11,15 +12,16 @@ using namespace std;
 int main()
 {
 	Dictionary dict;
-	dict.createDict("D:/C++/WordsDict/Books");
+	dict.create_dict("D:/C++/WordsDict/Books");
+	system("cls");
 
-	
+	cout << "Dictionary created" << endl;
 	
 	while(true)
 	{
 		string command;
 		
-		cout << "Enter your Command: " << endl;
+		cout << "Enter your Command: ";
 		getline(cin, command);
 
 		transform(command.begin(), command.end(), command.begin(), ::tolower);
@@ -35,23 +37,23 @@ int main()
 		
 		if (commands.size() > 3 || commands.size() == 0)
 		{
-			cout << "Input command error" << endl;
-			continue;
+			cerr << "Input command error";
 		}
 		else if(commands.size() == 2)
 		{
-			dict.handleRequest(NOT, commands);
+			dict.handle_request(NOT, commands);
 		}
 		else
 		{
 			if(commands[1] == "and")
 			{
-				dict.handleRequest(AND, commands);
+				dict.handle_request(AND, commands);
 			}
 			else if(commands[1] == "or")
 			{
-				dict.handleRequest(OR, commands);
+				dict.handle_request(OR, commands);
 			}
 		}
+		cout << endl;
 	}
 }

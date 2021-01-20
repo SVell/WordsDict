@@ -5,44 +5,43 @@
 #include <regex>
 #include <fstream>
 #include <functional>
-#include "CreateDictionary.h"
+#include "Dictionary.h"
 
 using namespace std;
 namespace fs = std::filesystem;
 
-int wordsCount = 0;
-int totalWordsCount = 0;
+int words_count = 0;
+int total_words_count = 0;
 
 long long microseconds;
 
-void Dictionary::createDict(const string &path) {
+void Dictionary::create_dict(const string &path) {
     const auto st = std::chrono::high_resolution_clock::now();
 
-    string book;
-    string p;
+    string bookName, bookPath;
 
 	for (const auto& file : fs::directory_iterator(path)) {
 		
-        p = file.path().string();
-        book = p.substr(path.size()+1, p.size()- path.size() - 5);
-        books.push_back(book);
-        p.replace(path.size(), 1, "/");
-        cout << p << endl;
+        bookPath = file.path().string();
+        bookName = bookPath.substr(path.size()+1, bookPath.size()- path.size() - 5);
+        books.push_back(bookName);
+        bookPath.replace(path.size(), 1, "/");
+        cout << bookPath << endl;
 
         cout << "FileOpen" << endl;
 
-		handleFile(p, book);
+		handle_file(bookPath, bookName);
 	}
 
     cout << "FileWrite" << endl;
 
     const auto elapsed = std::chrono::high_resolution_clock::now() - st;
     microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
-    createOutputFile();
+    create_output_file();
 }
 
 
-void Dictionary::handleFile(const string &path, string book) {
+void Dictionary::handle_file(const string &path, string &book) {
     fstream myFile;
     string line;
 
@@ -56,7 +55,7 @@ void Dictionary::handleFile(const string &path, string book) {
 	
     while (getline(myFile, line))
     {
-        cleanString(line);
+        clean_string(line);
 
         istringstream iss(line);
         results.clear();
@@ -65,16 +64,16 @@ void Dictionary::handleFile(const string &path, string book) {
 
         for (int i = 0; i < results.size(); ++i) {
 
-            totalWordsCount++;
+            total_words_count++;
         
             newWord.line = results[i];
             
-            binarySearch(newWord, 0, words.size() - 1);
+            binary_search(newWord, 0, words.size() - 1);
         }
     }
 }
 
-void Dictionary::binarySearch(const word &word,const int l, const int r) {
+void Dictionary::binary_search(const word &word,const int l, const int r) {
 
     if (r >= l) {
         int mid = l + (r - l) / 2;
@@ -90,31 +89,31 @@ void Dictionary::binarySearch(const word &word,const int l, const int r) {
         }
 
         if (words[mid].line > word.line) {
-            return binarySearch(word, l, mid - 1);
+            return binary_search(word, l, mid - 1);
         }
-        return binarySearch(word, mid+1, r);
+        return binary_search(word, mid+1, r);
     }
 
 
-    insertWord(word);
+    insert_word(word);
 }
 
-void Dictionary::insertWord(const word &word) {
+void Dictionary::insert_word(const word &word) {
     for (auto it = words.begin(); it != words.end(); ++it) {
         if (word.line < (*it).line) {
             words.insert(it, word);
-            wordsCount++;
+            words_count++;
             return;
         }
     }
 
     words.push_back(word);
-    wordsCount++;
+    words_count++;
 }
 
 const regex symb("[^\\w\\s]");
 string result;
-void Dictionary::cleanString(string &word) {
+void Dictionary::clean_string(string &word) {
     
     transform(word.begin(), word.end(), word.begin(), ::tolower);
 	
@@ -125,13 +124,13 @@ void Dictionary::cleanString(string &word) {
     word = result;
 }
 
-void Dictionary::createOutputFile() {
+void Dictionary::create_output_file() {
 
     ofstream MyFile("Dictionary.txt");
 
     MyFile << "Time of execution: " << (double)microseconds/1000000 << "\n";
-    MyFile << "Total Number of words: " << totalWordsCount << "\n";
-    MyFile << "Unique Number of words: " << wordsCount << "\n";
+    MyFile << "Total Number of words: " << total_words_count << "\n";
+    MyFile << "Unique Number of words: " << words_count << "\n";
 
     for (int i = 0; i < words.size(); ++i) {
         MyFile << "\"" << words[i].line << "\"" << " - Books: ";

@@ -1,91 +1,107 @@
 #include <iostream>
+#include <windows.h>
 
-#include "CreateDictionary.h"
+#include "Dictionary.h"
 
 using namespace std;
 
-void Dictionary::handleRequest(const request req, vector<string> &line)
+// Console 
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+void Dictionary::handle_request(const request req, vector<string> &line)
 {
 	switch (req)
 	{
 		case NOT:
-			handleNot(line);
+			handle_not(line);
 			break;
 		case AND:
-			handleAnd(line);
+			handle_and(line);
 			break;
 		case OR:
-			handleOr(line);
+			handle_or(line);
 			break;
 	}
 }
 
-void Dictionary::handleNot(vector<string>& line)
+void Dictionary::handle_not(vector<string>& line)
 {
-	string newWord = line[1];
+	const string newWord = line[1];
 	
-	int index = binarySearchWord(newWord, 0, words.size());
+	const int index = binary_search_word(newWord, 0, words.size());
 	cout << index << endl;
-	cout << "Books: " << endl;
+
+	// Console color
+	SetConsoleTextAttribute(hConsole, 10);
 	
-	for(string b : books)
+	cout << "Books: " << endl;
+	for(const string book : books)
 	{
-		if (!count(words[index].books.begin(), words[index].books.end(), b)) {
-			cout << b << endl;
+		if (!count(words[index].books.begin(), words[index].books.end(), book)) {
+			cout << book << endl;
 		}
 	}
+	SetConsoleTextAttribute(hConsole, 7);
 }
-void Dictionary::handleAnd(vector<string>& line)
+
+void Dictionary::handle_and(vector<string>& line)
 {
-	string firstWord = line[0];
-	string secondWord = line[2];
+	const string firstWord = line[0];
+	const string secondWord = line[2];
 
-	int firstIndex = binarySearchWord(firstWord, 0, words.size());
-	int secondIndex = binarySearchWord(secondWord, 0, words.size());
+	const int firstIndex = binary_search_word(firstWord, 0, words.size());
+	const int secondIndex = binary_search_word(secondWord, 0, words.size());
 
-	cout << "Books: " << endl;
+	// Console color
+	SetConsoleTextAttribute(hConsole, 10);
 	
-	for (string b : books)
-	{
-		if (count(words[firstIndex].books.begin(), words[firstIndex].books.end(), b) 
-			&& count(words[secondIndex].books.begin(), words[secondIndex].books.end(), b)) {
-			cout << b << endl;
-		}
-	}
-}
-void Dictionary::handleOr(vector<string>& line)
-{
-	string firstWord = line[0];
-	string secondWord = line[2];
-
-	int firstIndex = binarySearchWord(firstWord,0,words.size());
-	int secondIndex = binarySearchWord(secondWord, 0, words.size());
-
 	cout << "Books: " << endl;
-
-	for (string b : books)
+	for (const string book : books)
 	{
-		if (count(words[firstIndex].books.begin(), words[firstIndex].books.end(), b)
-			|| count(words[secondIndex].books.begin(), words[secondIndex].books.end(), b)) {
-			cout << b << endl;
+		if (count(words[firstIndex].books.begin(), words[firstIndex].books.end(), book) 
+			&& count(words[secondIndex].books.begin(), words[secondIndex].books.end(), book)) {
+			cout << book << endl;
 		}
 	}
+	SetConsoleTextAttribute(hConsole, 7);
 }
 
-int Dictionary::binarySearchWord(const string &word, const int l, const int r)
+void Dictionary::handle_or(vector<string>& line)
+{
+	const string firstWord = line[0];
+	const string secondWord = line[2];
+
+	const int firstIndex = binary_search_word(firstWord,0,words.size());
+	const int secondIndex = binary_search_word(secondWord, 0, words.size());
+
+	// Console color
+	SetConsoleTextAttribute(hConsole, 10);
+	
+	cout << "Books: " << endl;
+	for (const string book : books)
+	{
+		if (count(words[firstIndex].books.begin(), words[firstIndex].books.end(), book)
+			|| count(words[secondIndex].books.begin(), words[secondIndex].books.end(), book)) {
+			cout << book << endl;
+		}
+	}
+	SetConsoleTextAttribute(hConsole, 7);
+}
+
+int Dictionary::binary_search_word(const string &word, const int l, const int r)
 {
 	
 	if (r >= l) {
-		int mid = l + (r - l) / 2;
+		const int mid = l + (r - l) / 2;
 
 		if (words[mid].line == word) {
 			return mid;
 		}
 
 		if (words[mid].line > word) {
-			return binarySearchWord(word, l, mid - 1);
+			return binary_search_word(word, l, mid - 1);
 		}
-		return binarySearchWord(word, mid + 1, r);
+		return binary_search_word(word, mid + 1, r);
 	}
 	
     return -1;
