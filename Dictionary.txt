@@ -1,6 +1,6 @@
-Time of execution: 40.5396
+Time of execution: 40.9228
 Total Number of words: 363473
-Unique Number of words: 9982
+Unique Number of words: 138250
 "0" - Books: 450fromPaddingtonAgathaChristie, BusinessAtTheSpeedOfThoughtBillGates, CaptainCorellisMandolinLouisDeBernieres, ColdComfortFarmStellaGibbons, CryFreedomJohnBriley, DoubleHelixJamesWatson, LegallyBlondeAmandaBrown, MadameBovaryGustaveFlaubert, MemoirsOfAGeishaArthurGolden, RebeccaDaphneDuMaurier, TheBestOfTimesAlanMaley; Count: 13
 "00" - Books: LegallyBlondeAmandaBrown; Count: 16
 "000" - Books: BusinessAtTheSpeedOfThoughtBillGates, CaptainCorellisMandolinLouisDeBernieres, MemoirsOfAGeishaArthurGolden; Count: 29

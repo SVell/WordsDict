@@ -142,11 +142,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CreateDictionary.cpp" />
+    <ClCompile Include="SimpleBooleanSearch.cpp" />
     <ClCompile Include="UseDictionary.cpp" />
     <ClCompile Include="WordsDict.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dictionary.h" />
+    <ClInclude Include="Structs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

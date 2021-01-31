@@ -1,14 +1,13 @@
 #include <algorithm>
 #include <iostream>
 #include <sstream>
-#include <windows.h>
 
 #include "Dictionary.h"
 
 using namespace std;
 
 // Console 
-HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 
 void Dictionary::handle_request(const request req, string& line, int range)
 {
@@ -25,13 +24,13 @@ void Dictionary::handle_request(const request req, string& line, int range)
 	case RANGE:
 		range += 2;
 		res = search_range(line, range);
-		SetConsoleTextAttribute(hConsole, 10);
+		SetConsoleTextAttribute(console, 10);
 		cout << "Books: " << endl;
 		for(auto l : res)
 		{
 			cout << l << endl;
 		}
-		SetConsoleTextAttribute(hConsole, 7);
+		SetConsoleTextAttribute(console, 7);
 		break;
 	case TWOWORDS:
 		search_phrase_two(line);
@@ -40,13 +39,13 @@ void Dictionary::handle_request(const request req, string& line, int range)
 		range *= 2;
 		range += 2;
 		res = search_range_two(line, range);
-		SetConsoleTextAttribute(hConsole, 10);
+		SetConsoleTextAttribute(console, 10);
 		cout << "Books: " << endl;
 		for (auto l : res)
 		{
 			cout << l << endl;
 		}
-		SetConsoleTextAttribute(hConsole, 7);
+		SetConsoleTextAttribute(console, 7);
 		break;
 	}
 }
@@ -59,12 +58,12 @@ void Dictionary::search_phrase(string& line)
 	vector<string> res;
 	copy((istream_iterator<string>(iss)), istream_iterator<string>(), back_inserter(res));
 
-	const int firstIndex = binary_search_word(res[0], 0, words.size() - 1);
+	const int firstIndex = binary_search_word(res[0], 0, words.size() - 1, words);
 
 	bool hasPhrase = true;
 	
 	// Console color
-	SetConsoleTextAttribute(hConsole, 10);
+	SetConsoleTextAttribute(console, 10);
 
 	cout << "Books: " << endl;
 	for(int i = 0; i < res.size()-1; ++i)
@@ -103,7 +102,7 @@ void Dictionary::search_phrase(string& line)
 		}
 	}
 
-	SetConsoleTextAttribute(hConsole, 7);
+	SetConsoleTextAttribute(console, 7);
 }
 
 void Dictionary::search_phrase_two(string& line)
@@ -114,12 +113,12 @@ void Dictionary::search_phrase_two(string& line)
 	vector<string> res;
 	copy((istream_iterator<string>(iss)), istream_iterator<string>(), back_inserter(res));
 
-	const int firstIndex = binary_search_word(res[0], 0, words.size() - 1);
+	const int firstIndex = binary_search_word(res[0], 0, twoWordIndex.size() - 1,twoWordIndex);
 
 	bool hasPhrase = true;
 
 	// Console color
-	SetConsoleTextAttribute(hConsole, 10);
+	SetConsoleTextAttribute(console, 10);
 
 	cout << "Books: " << endl;
 	for (int i = 0; i < res.size() - 1; ++i)
@@ -158,7 +157,7 @@ void Dictionary::search_phrase_two(string& line)
 		}
 	}
 
-	SetConsoleTextAttribute(hConsole, 7);
+	SetConsoleTextAttribute(console, 7);
 }
 
 vector<string> Dictionary::search_range(string& line, int range)
@@ -172,8 +171,8 @@ vector<string> Dictionary::search_range(string& line, int range)
 	const string firstWord = res[0];
 	const string secondWord = res[1];
 
-	const int firstIndex = binary_search_word(firstWord, 0, words.size());
-	const int secondIndex = binary_search_word(secondWord, 0, words.size());
+	const int firstIndex = binary_search_word(firstWord, 0, words.size(), words);
+	const int secondIndex = binary_search_word(secondWord, 0, words.size(), words);
 
 	for (const book b : words[firstIndex].books)
 	{
@@ -207,10 +206,8 @@ vector<string> Dictionary::search_range_two(string& line, int range)
 	const string firstWord = res[0] + " " + res[1];
 	const string secondWord = res[2] + " " + res[3];
 
-	const int firstIndex = binary_search_two_word(firstWord, 0, twoWordIndex.size() - 1);
-	const int secondIndex = binary_search_two_word(secondWord, 0, twoWordIndex.size() - 1);
-
-	cout << firstIndex << "  " << secondIndex << endl;
+	const int firstIndex = binary_search_word(firstWord, 0, twoWordIndex.size() - 1, twoWordIndex);
+	const int secondIndex = binary_search_word(secondWord, 0, twoWordIndex.size() - 1, twoWordIndex);
 	
 	for (const book b : twoWordIndex[firstIndex].books)
 	{
@@ -237,7 +234,7 @@ vector<string> Dictionary::search_two_words(string& line)
 {
 	vector<string> allBooks;
 	
-	const int index = binary_search_two_word(line, 0, twoWordIndex.size() - 1);
+	const int index = binary_search_word(line, 0, twoWordIndex.size() - 1, twoWordIndex);
 	
 	for(const string book : books)
 	{
@@ -249,42 +246,21 @@ vector<string> Dictionary::search_two_words(string& line)
 	return allBooks;
 }
 
-
-int Dictionary::binary_search_word(const string &word, const int l, const int r)
+int Dictionary::binary_search_word(const string &w, const int l, const int r, std::vector<word>& container)
 {
-	
 	if (r >= l) {
 		const int mid = l + (r - l) / 2;
 
-		if (words[mid].line == word) {
+		if (container[mid].line == w) {
 			return mid;
 		}
 
-		if (words[mid].line > word) {
-			return binary_search_word(word, l, mid - 1);
+		if (container[mid].line > w) {
+			return binary_search_word(w, l, mid - 1, container);
 		}
-		return binary_search_word(word, mid + 1, r);
+		return binary_search_word(w, mid + 1, r, container);
 	}
 	
     return -1;
-}
-
-int Dictionary::binary_search_two_word(const string& word, const int l, const int r)
-{
-
-	if (r >= l) {
-		const int mid = l + (r - l) / 2;
-
-		if (twoWordIndex[mid].line == word) {
-			return mid;
-		}
-
-		if (twoWordIndex[mid].line > word) {
-			return binary_search_two_word(word, l, mid - 1);
-		}
-		return binary_search_two_word(word, mid + 1, r);
-	}
-
-	return -1;
 }
 
