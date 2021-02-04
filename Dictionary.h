@@ -28,7 +28,7 @@ private:
 	void clean_string(std::string& word);
 	void create_output_file();
 
-	void create_rearrangements(const std::string& path, std::string& book);
+	void create_rearrangements(const std::string& path);
 
 	// Binary search by word
 	int binary_search_word(const std::string& w, const int l, const int r, std::vector<word>& container);

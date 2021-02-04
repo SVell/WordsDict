@@ -17,33 +17,24 @@ BTree tree(3);
 
 void Dictionary::create_bTree(const std::string& path)
 {	
-    long long microseconds;
-    
-    const auto st = std::chrono::high_resolution_clock::now();
-
-    string bookName, bookPath;
+    string bookPath;
 
     for (const auto& file : fs::directory_iterator(path)) {
 
         bookPath = file.path().string();
-        bookName = bookPath.substr(path.size() + 1, bookPath.size() - path.size() - 5);
     	
         bookPath.replace(path.size(), 1, "/");
 
         cout << bookPath << endl;
         cout << "FileOpen" << endl;
 
-        create_rearrangements(bookPath, bookName);
+        create_rearrangements(bookPath);
     }
-	
-    const auto elapsed = std::chrono::high_resolution_clock::now() - st;
-    microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
 
-    tree.search_jocker("y*a*s");
-    //tree.traverse("r$jun");
+    tree.search_bTree("yes");
 }
 
-void Dictionary::create_rearrangements(const std::string& path, std::string& book)
+void Dictionary::create_rearrangements(const std::string& path)
 {
     fstream myFile;
     string line;
