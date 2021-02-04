@@ -1,5 +1,4 @@
 #include <filesystem>
-#include <chrono>
 #include <iterator>
 #include <fstream>
 #include <iostream>
@@ -31,6 +30,7 @@ void Dictionary::create_bTree(const std::string& path)
         create_rearrangements(bookPath);
     }
 
+    treeGrams.at("a");
     tree.search_bTree("yes");
 }
 
@@ -58,15 +58,67 @@ void Dictionary::create_rearrangements(const std::string& path)
         	if(tree.search(*it) == nullptr)
         	{
                 string l = *it;
-                l = "$" + l;
-        		for(int i = 0; i < l.length() - 1; ++i)
-        		{
-                    l = l.substr(1, l.length()) + l.at(0);
-                    tree.insert(l);
-        		}
-                
+                rearrange_word(l);
+                create_TreeGram(l);
         	}
         }
     }
     myFile.close();
+}
+
+void Dictionary::rearrange_word(string l)
+{
+    l = "$" + l;
+    for (int i = 0; i < l.length() - 1; ++i)
+    {
+        l = l.substr(1, l.length()) + l.at(0);
+        tree.insert(l);
+    }
+}
+
+void Dictionary::create_TreeGram(string l)
+{
+    string clearLine = l;
+	
+    l = "$" + l + "$";
+	
+    vector<string> keys;
+	
+    int i = 0;
+    string temp;
+    for(i; i < l.length() - 3; ++i)
+    {
+        temp += l.at(i);
+        temp += l.at(i+1);
+        temp += l.at(i+2);
+    	
+        keys.push_back(temp);
+        temp.clear();
+    }
+
+    while (i < l.length())
+    {
+        temp += l[i];
+        i++;
+    }
+    keys.push_back(temp);
+
+	for(auto it = keys.cbegin(); it != keys.cend(); ++it)
+	{
+        auto p = treeGrams.find(*it);
+        if(p != treeGrams.end())
+        {
+	        if(!count(p->second.lines.cbegin(), p->second.lines.cend(), clearLine))
+			{
+                p->second.lines.push_back(clearLine);
+	        }
+        }
+        else
+        {
+            ThreeGram g;
+            g.lines.push_back(clearLine);
+
+            treeGrams.insert(make_pair(*it, g));
+        }
+	}
 }

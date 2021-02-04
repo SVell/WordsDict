@@ -25,6 +25,10 @@ struct word {
 	std::vector<book> books;
 };
 
+struct ThreeGram {
+	std::vector<std::string> lines;
+};
+
 inline bool operator==(const book& b1, const book& b2)
 {
 	return b1.name == b2.name;

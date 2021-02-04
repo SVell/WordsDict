@@ -86,6 +86,7 @@ BTreeNode* BTreeNode::search(string k)
     while (i < n && k > keys[i])
         i++;
 
+	// Error?
     if (keys[i] == k)
         return this;
 
