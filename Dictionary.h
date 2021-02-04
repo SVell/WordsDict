@@ -1,7 +1,7 @@
 #pragma once
 
-#include <vector>
 #include <string>
+#include <vector>
 #include <windows.h>
 
 #include "Structs.h"
@@ -18,6 +18,8 @@ public:
 	void create_dict(const std::string& path);
 	void handle_request(const request req, std::string &line, int range = 0);
 	void handle_boolean_search(const request req, std::vector<std::string>& line);
+
+	void create_bTree(const std::string& path);
 private:
 	void handle_file(const std::string& path, std::string &book);
 	// Insertion binary search
@@ -25,6 +27,8 @@ private:
 	void insert_word(const word& w, std::vector<word> &container);
 	void clean_string(std::string& word);
 	void create_output_file();
+
+	void create_rearrangements(const std::string& path, std::string& book);
 
 	// Binary search by word
 	int binary_search_word(const std::string& w, const int l, const int r, std::vector<word>& container);

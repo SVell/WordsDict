@@ -117,7 +117,9 @@ void use_boolean_search(Dictionary& dict)
 int main()
 {
 	Dictionary dict;
-	dict.create_dict("D:/C++/WordsDict/Books");
+
+	dict.create_bTree("D:/C++/WordsDict/Books");
+	/*dict.create_dict("D:/C++/WordsDict/Books");
 	system("cls");
 
 	cout << "Dictionary created" << endl;
@@ -145,5 +147,5 @@ int main()
 		default:
 			cerr << "Invalid Input" << endl;
 		}
-	}
+	}*/
 }

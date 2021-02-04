@@ -104,6 +104,8 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,12 +143,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BTree.cpp" />
+    <ClCompile Include="BTreeNode.cpp" />
     <ClCompile Include="CreateDictionary.cpp" />
+    <ClCompile Include="JockerRequests.cpp" />
     <ClCompile Include="SimpleBooleanSearch.cpp" />
     <ClCompile Include="UseDictionary.cpp" />
     <ClCompile Include="WordsDict.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BTree.h" />
+    <ClInclude Include="BTreeNode.h" />
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="Structs.h" />
   </ItemGroup>
