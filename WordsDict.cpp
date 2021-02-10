@@ -22,6 +22,7 @@ void use_dictionary(Dictionary& dict)
 		cout << "3 - Use Two Words dictionary find phrase" << endl;
 		cout << "4 - Use Two Words dictionary find 2 pairs" << endl;
 		
+	
 		getline(cin, line);
 		x = stoi(line);
 		
@@ -118,34 +119,35 @@ int main()
 {
 	Dictionary dict;
 
-	dict.create_bTree("D:/C++/WordsDict/Books");
-	/*dict.create_dict("D:/C++/WordsDict/Books");
-	system("cls");
-
-	cout << "Dictionary created" << endl;
-
-	
-	while(true)
-	{
-		int x;
-		string line;
-
-		cout << "1 - Boolean Search" << endl;
-		cout << "2 - Use Dictionary" << endl;
+	 dict.create_bTree("D:/C++/WordsDict/Books");
 		
-		getline(cin, line);
-		x = stoi(line);
+	//dict.create_dict("D:/C++/WordsDict/Books");
+	//system("cls");
 
-		switch (x)
-		{
-		case 1:
-			use_boolean_search(dict);
-			break;
-		case 2:
-			use_dictionary(dict);
-			break;
-		default:
-			cerr << "Invalid Input" << endl;
-		}
-	}*/
+	//cout << "Dictionary created" << endl;
+
+	//
+	//while(true)
+	//{
+	//	int x;
+	//	string line;
+
+	//	cout << "1 - Boolean Search" << endl;
+	//	cout << "2 - Use Dictionary" << endl;
+	//	
+	//	getline(cin, line);
+	//	x = stoi(line);
+
+	//	switch (x)
+	//	{
+	//	case 1:
+	//		use_boolean_search(dict);
+	//		break;
+	//	case 2:
+	//		use_dictionary(dict);
+	//		break;
+	//	default:
+	//		cerr << "Invalid Input" << endl;
+	//	}
+	//}
 }

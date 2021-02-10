@@ -35,40 +35,28 @@ void BTree::insert(string k)
 
 void BTreeNode::insertNonFull(string k)
 {
-    // Initialize index as index of rightmost element 
     int i = n - 1;
 
-    // If this is a leaf node 
     if (leaf == true)
     {
-        // The following loop does two things 
-        // a) Finds the location of new key to be inserted 
-        // b) Moves all greater keys to one place ahead 
         while (i >= 0 && keys[i] > k)
         {
             keys[i + 1] = keys[i];
             i--;
         }
 
-        // Insert the new key at found location 
         keys[i + 1] = k;
         n = n + 1;
     }
-    else // If this node is not leaf 
+    else
     {
-        // Find the child which is going to have the new key 
         while (i >= 0 && keys[i] > k)
             i--;
 
-        // See if the found child is full 
         if (C[i + 1]->n == 2 * t - 1)
         {
-            // If the child is full, then split it 
             splitChild(i + 1, C[i + 1]);
 
-            // After split, the middle key of C[i] goes up and 
-            // C[i] is splitted into two.  See which of the two 
-            // is going to have the new key 
             if (keys[i + 1] < k)
                 i++;
         }
@@ -109,6 +97,12 @@ void BTree::search_and_print(string k)
 {
     BTreeNode* p = search(k);
 
+	if(p == NULL)
+	{
+		std::cout << "No such word" << std::endl;
+        return;
+	}
+	
     for (int i = 0; i < p->keys->size(); ++i)
     {
         string temp = p->keys[i];
@@ -155,7 +149,6 @@ void BTree::search_bTree(string k)
 		}
 
 		k = k.substr(0, k.length() - 1);
-
-		traverse(k, results);
+		traverse(k, {});
 	}
 }

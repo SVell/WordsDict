@@ -30,8 +30,15 @@ void Dictionary::create_bTree(const std::string& path)
         create_rearrangements(bookPath);
     }
 
-    treeGrams.at("a");
-    tree.search_bTree("yes");
+    treeGrams.at("pep");
+    // tree.search_bTree("yes");
+
+	while(true)
+	{
+        string line;
+        getline(cin, line);
+        tree.search_bTree(line);
+	}
 }
 
 void Dictionary::create_rearrangements(const std::string& path)
@@ -69,6 +76,7 @@ void Dictionary::create_rearrangements(const std::string& path)
 void Dictionary::rearrange_word(string l)
 {
     l = "$" + l;
+    tree.insert(l);
     for (int i = 0; i < l.length() - 1; ++i)
     {
         l = l.substr(1, l.length()) + l.at(0);
@@ -93,7 +101,7 @@ void Dictionary::create_TreeGram(string l)
         temp += l.at(i+2);
     	
         keys.push_back(temp);
-        temp.clear();
+        temp.clear(); // Yet another comment
     }
 
     while (i < l.length())

@@ -1,4 +1,4 @@
-Time of execution: 40.9228
+Time of execution: 40.3055
 Total Number of words: 363473
 Unique Number of words: 138250
 "0" - Books: 450fromPaddingtonAgathaChristie, BusinessAtTheSpeedOfThoughtBillGates, CaptainCorellisMandolinLouisDeBernieres, ColdComfortFarmStellaGibbons, CryFreedomJohnBriley, DoubleHelixJamesWatson, LegallyBlondeAmandaBrown, MadameBovaryGustaveFlaubert, MemoirsOfAGeishaArthurGolden, RebeccaDaphneDuMaurier, TheBestOfTimesAlanMaley; Count: 13

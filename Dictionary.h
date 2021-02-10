@@ -23,6 +23,7 @@ public:
 	void handle_boolean_search(const request req, std::vector<std::string>& line);
 
 	void create_bTree(const std::string& path);
+
 private:
 	void handle_file(const std::string& path, std::string &book);
 	// Insertion binary search

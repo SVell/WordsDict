@@ -52,7 +52,6 @@ void BTreeNode::traverse(string k, std::vector<string> addition)
 
         	if(!count(traverseRes.begin(), traverseRes.end(),res))
         	{
-                bool passes = true;
                 if(addition.size() > 2)
                 {
 	                for(int i = 1; i < addition.size() - 1; i++)
@@ -86,7 +85,6 @@ BTreeNode* BTreeNode::search(string k)
     while (i < n && k > keys[i])
         i++;
 
-	// Error?
     if (keys[i] == k)
         return this;
 
